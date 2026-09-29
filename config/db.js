@@ -1,0 +1,15 @@
+`use strict`;
+const mysql = require(`mysql2/promise`);
+const dotenv = require(`dotenv`);
+
+dotenv.config();
+
+const connection = mysql.createPool({
+    host: process.env.HOST , 
+    user: process.env.USER ,
+    password: process.env.PASSWORD ,
+    port: process.env.PORT ,
+    database: process.env.DATABASE ,
+});
+
+module.exports = connection;
