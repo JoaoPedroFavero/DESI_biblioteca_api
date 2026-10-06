@@ -100,14 +100,35 @@ const cadastrarLivro = async (req, res) => {
 
 const editarLivro = async (req, res) => {
     const id = req.params.id;
-    const {titulo, isbn, ano_publicacao, numero_paginas, sinopse} = req.body
+    let {titulo, isbn, ano_publicacao, numero_paginas, sinopse} = req.body
     try{
 
         const livroBuscado = await livrosModel.selecionarPorId(id);
+
         if (livroBuscado.length === 0){
             return res.status(404).json({
                 message: `Nenhum livro com o id ${id} encontrado na biblioteca`
             });
+        }
+
+        if(!titulo){
+            titulo = livroBuscado[0].titulo;
+        }
+
+        if(!isbn){
+            isbn = livroBuscado[0].isbn;
+        }
+
+        if(!ano_publicacao){
+            ano_publicacao = livroBuscado[0].ano_publicacao;
+        }
+
+        if(!numero_paginas){
+            numero_paginas = livroBuscado[0].numero_paginas;
+        }
+
+        if(!sinopse){
+            sinopse = livroBuscado[0].sinopse;
         }
 
         if(!ISBN.parse(isbn) || !ISBN.parse(isbn).isValid){

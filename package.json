@@ -16,6 +16,7 @@
     "isbn3": "^2.0.11",
     "mysql2": "^3.24.4",
     "nodemon": "^3.1.14",
+    "validar-cpf": "^3.1.1",
     "validate-date": "^2.1.0"
   }
 }

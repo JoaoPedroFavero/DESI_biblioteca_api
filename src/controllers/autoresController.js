@@ -87,14 +87,26 @@ const cadastrarAutor = async (req, res) => {
 const editarAutor = async (req, res) => {
     try{
         const id = req.params.id;
-        const {nome, nacionalidade, data_nascimento} = req.body;
+        let {nome, nacionalidade, data_nascimento} = req.body;
         const autorBuscado = await autoresModel.selecionarPorId(id);
+
         if(autorBuscado.length === 0){
             return res.status(404).json({
                 message: `Nenhum autor com o id ${id} cadastrado na biblioteca`
             });
         }
 
+        if(!nome){
+            nome = autorBuscado[0].nome;
+        }
+
+        if(!nacionalidade){
+            nacionalidade = autorBuscado[0].nacionalidade;
+        }
+
+        if(!data_nascimento){
+            data_nascimento = autorBuscado[0].data_nascimento;
+        }
 
         if(!validadorData(data_nascimento, responseType="boolean")){
             return res.status(400).json({
