@@ -79,10 +79,10 @@ SELECT * FROM livros;
 SELECT * FROM autores_livros;
 
 INSERT INTO autores_livros (autor_id, livro_id) VALUES
-('5', '1'),
-('6', '2'),
-('7', '3'),
-('8', '4');
+('1', '1'),
+('2', '2'),
+('3', '3'),
+('4', '4');
 
 INSERT INTO livros_generos (livro_id, genero_id) VALUES
 ('1', '2'),

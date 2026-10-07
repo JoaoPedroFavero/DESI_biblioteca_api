@@ -52,7 +52,7 @@ const editar = async(id, nome, cpf, email, telefone, data_nascimento) => {
 }
 
 const deletar = async(id) => {
-    const [resultado] = db.query(
+    const [resultado] = await db.query(
         "DELETE FROM usuarios WHERE id = ?",
         [id]
     );

@@ -5,8 +5,8 @@ const router = express.Router();
 const autoresController = require(`../controllers/autoresController`);
 
 //GET
-router.get(`/autores`, autoresController.listarAutores);
-router.get(`/autores/:id`, autoresController.listarAutoresPorId);
+router.get(`/autores/todos`, autoresController.listarAutores);
+router.get(`/autores/id/:id`, autoresController.listarAutoresPorId);
 
 //POST
 router.post(`/autores/cadastrar`, autoresController.cadastrarAutor);
@@ -15,6 +15,6 @@ router.post(`/autores/cadastrar`, autoresController.cadastrarAutor);
 router.put(`/autores/editar/:id`, autoresController.editarAutor);
 
 //DELETE
-router.delete(`autores/deletar/:id`, autoresController.deletarAutor);
+router.delete(`/autores/deletar/:id`, autoresController.deletarAutor);
 
 module.exports = router;

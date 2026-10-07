@@ -5,8 +5,8 @@ const router = express.Router();
 const generosController = require(`../controllers/generosController`);
 
 //GET
-router.get(`/generos`, generosController.listarGeneros);
-router.get(`/generos/:id`, generosController.listarGenerosPorId);
+router.get(`/generos/todos`, generosController.listarGeneros);
+router.get(`/generos/id/:id`, generosController.listarGenerosPorId);
 
 //POST
 router.post(`/generos/cadastrar`, generosController.cadastrarGenero);

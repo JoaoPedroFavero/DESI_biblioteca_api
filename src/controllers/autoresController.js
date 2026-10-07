@@ -48,7 +48,8 @@ const listarAutoresPorId = async (req, res) => {
 
 const cadastrarAutor = async (req, res) => {
     try{
-        const {nome, nacionalidade, data_nascimento} = req.body;
+        let {nome, nacionalidade, data_nascimento} = req.body;
+
         if(!nome){
             return res.status(400).json({
                 erro: `Nome é obrigatório`
@@ -61,7 +62,8 @@ const cadastrarAutor = async (req, res) => {
             });
         }
 
-        if(!data_nascimento || !validadorData(data_nascimento, responseType="boolean")){
+        if(!data_nascimento || !validadorData(data_nascimento.toString(), "boolean", "dd/mm/yyyy")){
+            console.log(data_nascimento, validadorData(data_nascimento.toString(), "boolean", "dd/mm/yyyy"))
             return res.status(400).json({
                 erro: `Data de Nascimento é obrigatória e aceita somente no padrão DD/MM/AAAA`
             });
@@ -81,6 +83,7 @@ const cadastrarAutor = async (req, res) => {
         res.status(500).json({
             erro: `Não foi possível cadastrar o autor. Erro interno do Servidor`
         });
+        console.log(err)
     }
 }
 
@@ -89,6 +92,7 @@ const editarAutor = async (req, res) => {
         const id = req.params.id;
         let {nome, nacionalidade, data_nascimento} = req.body;
         const autorBuscado = await autoresModel.selecionarPorId(id);
+        let dataAntiga = false;
 
         if(autorBuscado.length === 0){
             return res.status(404).json({
@@ -106,16 +110,20 @@ const editarAutor = async (req, res) => {
 
         if(!data_nascimento){
             data_nascimento = autorBuscado[0].data_nascimento;
+            dataAntiga = true;
         }
 
-        if(!validadorData(data_nascimento, responseType="boolean")){
+        if(data_nascimento && dataAntiga === false){
+            console.log(data_nascimento);
+            const [dia, mes, ano] = data_nascimento.split("/");
+            data_nascimento = `${ano}-${mes}-${dia}`;
+        }     
+
+        if(data_nascimento && dataAntiga === false && !validadorData(data_nascimento.toString(), "boolean", "dd/mm/yyyy")){
             return res.status(400).json({
-                erro: `Data de Nascimento é aceita somente no padrão DD/MM/AAAA`
+                erro: `Data de Nascimento aceita somente no padrão DD/MM/AAAA ou YYYY-MM-DD`
             });
         }
-
-        const [dia, mes, ano] = data_nascimento.split("/");
-        data_nascimento = `${ano}-${mes}-${dia}`;
 
         const autorEditado = await autoresModel.editar(id, nome, nacionalidade, data_nascimento);
 

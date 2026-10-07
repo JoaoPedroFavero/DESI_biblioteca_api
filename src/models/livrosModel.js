@@ -37,7 +37,7 @@ const criar = async(titulo, isbn, ano_publicacao, numero_paginas, sinopse) => {
 
 const editar = async(id, titulo, isbn, ano_publicacao, numero_paginas, sinopse) => {
     const [resultado] = await db.query(
-        "UPTADE livros SET titulo=? isbn=? ano_publicacao=? numero_paginas=? sinopse=? WHERE id = ?",
+        "UPDATE livros SET titulo=?, isbn=?, ano_publicacao=?, numero_paginas=?, sinopse=? WHERE id = ?",
         [titulo, isbn, ano_publicacao, numero_paginas, sinopse, id]
     );
 

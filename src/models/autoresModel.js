@@ -21,7 +21,7 @@ const selecionarPorId = async(id) =>{
 
 const criar = async (nome, nacionalidade, data_nascimento) => {
     const [resultado] = await db.query(
-        "INSERT INTO autores (nome, nacionalidade, data_nascimento) VALUES (?, ?, ?)",
+        "INSERT INTO autores (nome_completo, nacionalidade, data_nascimento) VALUES (?, ?, ?)",
         [nome, nacionalidade, data_nascimento]
     );
 
@@ -35,7 +35,7 @@ const criar = async (nome, nacionalidade, data_nascimento) => {
 
 const editar = async(id, nome, nacionalidade, data_nascimento) => {
     const [resultado] = await db.query(
-        "UPDATE autores SET nome=?, nacionalidade=?, data_nascimento=? WHERE id = ?",
+        "UPDATE autores SET nome_completo=?, nacionalidade=?, data_nascimento=? WHERE id = ?",
         [nome, nacionalidade, data_nascimento, id]
     );
 

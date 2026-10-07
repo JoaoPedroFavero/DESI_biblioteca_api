@@ -166,6 +166,7 @@ const editarLivro = async (req, res) => {
         res.status(500).json({
             message: `Não foi possível editar o Livro. Erro interno do Servidor`
         });
+        console.log(err)
     }
 }
 
