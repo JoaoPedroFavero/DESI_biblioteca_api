@@ -19,10 +19,10 @@ const selecionarPorId = async(id) => {
     return resultado;
 }
 
-const criar = async(nome, cpf, email, telefone, data_nascimento) => {
+const criar = async(nome, cpf, email, telefone, data_nascimento, senha) => {
     const [resultado] = await db.query(
-        "INSERT INTO usuarios (nome_completo, cpf, email, telefone, data_nascimento) VALUES (?, ?, ?, ?, ?)",
-        [nome, cpf, email, telefone, data_nascimento]
+        "INSERT INTO usuarios (nome_completo, cpf, email, telefone, data_nascimento, senha) VALUES (?, ?, ?, ?, ?, ?)",
+        [nome, cpf, email, telefone, data_nascimento, senha]
     );
 
     return {
@@ -31,14 +31,15 @@ const criar = async(nome, cpf, email, telefone, data_nascimento) => {
         cpf,
         email,
         telefone,
-        data_nascimento 
+        data_nascimento ,
+        senha
     }
 }
 
-const editar = async(id, nome, cpf, email, telefone, data_nascimento) => {
+const editar = async(id, nome, cpf, email, telefone, data_nascimento, senha) => {
     const [resultado] = await db.query(
-        "UPDATE usuarios SET nome_completo=?, cpf=?, email=?, telefone=?, data_nascimento=? WHERE id = ?",
-        [nome, cpf, email, telefone, data_nascimento, id]
+        "UPDATE usuarios SET nome_completo=?, cpf=?, email=?, telefone=?, data_nascimento=?, senha=? WHERE id = ?",
+        [nome, cpf, email, telefone, data_nascimento, senha, id]
     );
 
     return {
@@ -47,7 +48,8 @@ const editar = async(id, nome, cpf, email, telefone, data_nascimento) => {
         cpf,
         email,
         telefone,
-        data_nascimento
+        data_nascimento,
+        senha
     }
 }
 

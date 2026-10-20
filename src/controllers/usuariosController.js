@@ -3,6 +3,7 @@
 const usuariosModel = require(`../models/usuariosModel`);
 const validarCpf = require(`validar-cpf`);
 const validadorData = require(`validate-date`);
+const bcrypt = require("bcrypt");
 
 const listarUsuarios = async (req, res) => {
     try{
@@ -51,7 +52,10 @@ const listarUsuariosPorId = async (req, res) => {
 
 const cadastrarUsuario = async (req, res) => {
     try{
-        let {nome, cpf, email, telefone, data_nascimento} = req.body;
+        let {nome, cpf, email, telefone, data_nascimento, senha} = req.body;
+        let hashCpf;
+        let senhaHash;
+        const saltRounds = 12;
 
         if(!nome){
             return res.status(400).json({
@@ -71,6 +75,8 @@ const cadastrarUsuario = async (req, res) => {
             });
         }
 
+        hashCpf = await bcrypt.hash(cpf, saltRounds);
+
         if(!email || !(email.includes(`@`)) || !(email.includes(`.com`))){
            return res.status(400).json({
                 erro: `O Email é obrigatório e deve ser válido.`
@@ -84,7 +90,7 @@ const cadastrarUsuario = async (req, res) => {
         }
 
         if(!data_nascimento || !validadorData(data_nascimento.toString(), "boolean", "dd/mm/yyyy")){
-            console.log(data_nascimento, validadorData(data_nascimento.toString(), "boolean", "dd/mm/yyyy"))
+            //console.log(data_nascimento, validadorData(data_nascimento.toString(), "boolean", "dd/mm/yyyy"))
             return res.status(400).json({
                 erro: `Data de Nascimento é obrigatória e aceita somente no padrão DD/MM/AAAA`
             });
@@ -93,7 +99,15 @@ const cadastrarUsuario = async (req, res) => {
         const [dia, mes, ano] = data_nascimento.split("/");
         data_nascimento = `${ano}-${mes}-${dia}`;
 
-        const usuariosCadastrado = await usuariosModel.criar(nome, cpf, email, telefone, data_nascimento);
+        if(!senha){
+            return res.status(400).json({
+                erro: `Senha é obrigatória.`
+            });
+        }
+
+        senhaHash = await bcrypt.hash(senha, saltRounds);
+
+        const usuariosCadastrado = await usuariosModel.criar(nome, hashCpf, email, telefone, data_nascimento, senhaHash);
 
         res.status(200).json({
             message: `Usuario cadastrado com sucesso`,

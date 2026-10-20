@@ -41,11 +41,15 @@ CREATE TABLE livros_generos(
 CREATE TABLE usuarios(
 	id INT AUTO_INCREMENT UNIQUE NOT NULL PRIMARY KEY,
 	nome_completo VARCHAR(250) NOT NULL,
-	cpf VARCHAR(20) UNIQUE NOT NULL,
+	cpf VARCHAR(250) UNIQUE NOT NULL,
 	email VARCHAR(150) NOT NULL UNIQUE,
 	telefone VARCHAR(20) NOT NULL,
-	data_nascimento DATE NOT NULL
+	data_nascimento DATE NOT NULL,
+    senha VARCHAR(250)
 );
+
+ALTER TABLE usuarios MODIFY COLUMN cpf VARCHAR(250) UNIQUE NOT NULL;
+ALTER TABLE usuarios ADD COLUMN senha VARCHAR(250);
 
 CREATE TABLE emprestimos(
 	id INT AUTO_INCREMENT UNIQUE NOT NULL PRIMARY KEY,
@@ -98,3 +102,4 @@ INSERT INTO emprestimos (data_emprestimo, data_devolucao, livro_id, usuario_id) 
 ('2026-10-01', '2026-11-01', '1', '1'),
 ('2026-10-05', '2026-10-15', '2', '2');
 
+SELECT * FROM usuarios;
